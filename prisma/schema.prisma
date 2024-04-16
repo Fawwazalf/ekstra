@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  link      String
+  createdAt DateTime @default(now())
+  ekstra    Ekstra   @relation(fields: [ekstraId], references: [id])
+  ekstraId  Int
+}
+
+model User {
+  id       Int     @id @unique @default(autoincrement())
+  nis      String  @unique
+  nisn     String  @unique
+  password String?
+  fullname String
+  gender   String
+  kelas    String
+  jurusan  String
+
+  ekstras  Anggota[]
+  presensi Presensi[]
+}
+
+model Category {
+  id   Int    @default(autoincrement())
+  name String @id
+
+  ekstras Ekstra[]
+}
+
+model Ekstra {
+  id           Int      @id @default(autoincrement())
+  name         String
+  desc         String
+  categoryName String
+  category     Category @relation(fields: [categoryName], references: [name])
+  hari         Int
+  location     String   @default("Belum tahu")
+  pembimbing   String   @default("Belum tahu")
+  image        String
+
+  users Anggota[]
+  posts Post[]
+}
+
+model Anggota {
+  user     User   @relation(fields: [userId], references: [id])
+  userId   Int
+  ekstra   Ekstra @relation(fields: [ekstraId], references: [id])
+  ekstraId Int
+
+  @@unique([userId, ekstraId])
+}
+
+model Event {
+  id   Int      @id @default(autoincrement())
+  name String
+  date DateTime
+
+  presensi Presensi[]
+}
+
+model Presensi {
+  id         Int      @id @unique @default(autoincrement())
+  userId     Int
+  eventId    Int
+  attendedAt DateTime
+  user       User     @relation(fields: [userId], references: [id])
+  event      Event    @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
+}
