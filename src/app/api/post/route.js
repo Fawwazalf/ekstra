@@ -49,10 +49,3 @@ export const GET = async (req)=>{
     return NextResponse.json({ status: "error", message: error.message, });
   }
 }
-
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};

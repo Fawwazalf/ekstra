@@ -49,8 +49,3 @@ export const DELETE = async (req)=>{ try {
   return NextResponse.json({ status: "error", message: "Terjadi kesalahan saat menghapus anggota" });
 }}
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
