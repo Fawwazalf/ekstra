@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Welcome = () => {
   return (
-    <div className="flex h-screen justify-center items-center gap-[84px]  ">
+    <div className="flex h-screen justify-center items-center gap-[84px] md:flex-row sm:flex-col-reverse ">
       <div className="w-[573px] h-min">
         <p className="text-[#96BB7C] font-bold text-base mb-[30px]">
           SMK Negeri 7 Semarang
