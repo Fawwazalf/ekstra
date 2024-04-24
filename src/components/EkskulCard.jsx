@@ -4,7 +4,7 @@ import Link from "next/link";
 const EkskulCard = (props) => {
   return (
     <div className="w-[348px] min-h-[650px] flex flex-col shadow-2xl rounded-[20px]">
-      <Image
+      <img
         src={props.image}
         height="300"
         width="348"

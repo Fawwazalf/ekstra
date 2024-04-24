@@ -6,13 +6,14 @@ import { useRouter } from "next/navigation";
 
 const FormRegister = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [nis, setNis] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const res = await signIn("credentials", {
       nis: nis,
       password: password,
@@ -24,6 +25,7 @@ const FormRegister = () => {
     }
     if (res?.error) {
       setError({ error });
+      setLoading(false);
     }
   };
 
@@ -71,6 +73,7 @@ const FormRegister = () => {
         )}
         <div className="mt-[60px] self-center w-min flex flex-col gap-[10px]">
           <button
+            disabled={loading}
             type="submit"
             className="text-[#FFFFFF] font-bold text-[14px] bg-[#96BB7C] rounded-[5px] px-[100px] py-[20px] "
           >

@@ -5,13 +5,14 @@ import { NextResponse } from "next/server";
 
 export const POST = async (req)=>{
   try {
-    const { link, ekstraId } = await req.json();
+    const { link, ekstraId, desc } = await req.json();
 
     
     const newPost = await prisma.post.create({
       data: {
         link:link,
         ekstraId:ekstraId,
+desc: desc
       },
     });
 

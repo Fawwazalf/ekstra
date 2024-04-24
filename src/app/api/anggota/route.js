@@ -28,7 +28,7 @@ export const POST = async (req)=>{
     return NextResponse.json({ status: 200, message: "Anggota berhasil ditambahkan", anggota: newAnggota });
   } catch (error) {
     console.error("Terjadi kesalahan:", error);
-    return NextResponse.json({ status: "erro", message: error.message, });
+    return NextResponse.json({ status: "error", message: error.message, });
   }
 }
 

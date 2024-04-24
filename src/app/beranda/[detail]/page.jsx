@@ -29,6 +29,7 @@ const page = async (props) => {
         pembimbing={ekstra.pembimbing}
         image={ekstra.image}
         anggota={ekstra.users.length}
+        day={ekstra.hari - 1}
       />
     </div>
   );

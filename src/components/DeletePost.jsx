@@ -1,8 +1,11 @@
 "use client";
-import prisma from "../../lib/prisma";
+
+import { useState } from "react";
 
 const DeletePost = ({ link }) => {
+  const [loading, setLoading] = useState(false);
   const handleDelete = async () => {
+    setLoading(true);
     try {
       const response = await fetch("/api/post", {
         method: "DELETE",
@@ -14,17 +17,20 @@ const DeletePost = ({ link }) => {
         }),
       });
       window.location.reload();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Terjadi kesalahan:", error);
     }
   };
 
   return (
     <button
-      className="bg-red-500 text-white px-2 py-1 rounded mr-2"
+      disabled={loading}
+      className="bg-red-500 text-white px-2 py-1 rounded"
       onClick={() => handleDelete(link)}
     >
-      Delete
+      Hapus
     </button>
   );
 };

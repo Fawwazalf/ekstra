@@ -1,9 +1,10 @@
 import { getServerSession } from "next-auth";
-import ButtonUpload from "../../../../components/ButtonUpload";
 import prisma from "../../../../../lib/prisma";
 import { authOptions } from "../../../../../lib/auth";
 import { redirect } from "next/navigation";
+import CreatePost from "../../../../components/CreatePost";
 import DeletePost from "../../../../components/DeletePost";
+import EditEkstra from "../../../../components/EditEkstra";
 import DeleteAnggota from "../../../../components/DeleteAnggota";
 const formatDate = (dateString) => {
   const months = [
@@ -30,7 +31,14 @@ const formatDate = (dateString) => {
 };
 const page = async (props) => {
   const session = await getServerSession(authOptions);
-
+  const categories = await prisma.category.findMany({
+    include: {
+      ekstras: true,
+    },
+    orderBy: {
+      id: "asc",
+    },
+  });
   const ekstra = await prisma.ekstra.findUnique({
     where: {
       id: parseInt(props.params.detail),
@@ -40,92 +48,106 @@ const page = async (props) => {
     },
   });
 
-  const user = await prisma.user.findUnique({
+  const userSession = await prisma.user.findUnique({
     where: {
       id: session.id,
     },
   });
 
-  if (user.fullname != ekstra.name) {
+  if (userSession.fullname === ekstra.name) {
+  } else if (userSession.nis === "admin") {
+  } else {
     redirect("/beranda/" + props.params.detail);
   }
-
   const posts = await prisma.post.findMany();
 
   return (
-    <div className="container mx-auto mt-10">
+    <div className="container mx-[30px]  mt-10">
       <h1 className="text-2xl font-bold mb-5">
         Dashboard Ekstra {ekstra.name}
       </h1>
-      <div className="flex justify-between">
-        <ButtonUpload ekstraId={props.params.detail} />
+      <div className="flex gap-[100px] ">
+        <CreatePost ekstraId={props.params.detail} />
+        <EditEkstra ekstra={ekstra} categories={categories} />
       </div>
       <div className="mt-5">
         <h2 className="text-xl font-bold mb-3">Postingan</h2>
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-300 px-4 py-2">ID</th>
-              <th className="border border-gray-300 px-4 py-2">Image</th>
-              <th className="border border-gray-300 px-4 py-2">Created At</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {posts.map((post, index) => (
-              <tr key={index}>
-                <td className="border border-gray-300 px-4 py-2">
-                  {index + 1}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  <a href={post.link} className="underline ">
-                    link
-                  </a>
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {formatDate(post.createdAt)}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  <DeletePost link={post.link} />
-                </td>
+        <div className="">
+          <table className=" border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 px-4 py-2">ID</th>
+                <th className="border border-gray-300 px-4 py-2">Gambar</th>
+                <th className="border border-gray-300 px-4 py-2">Deskripsi</th>
+                <th className="border border-gray-300 px-4 py-2">Tanggal</th>
+                <th className="border border-gray-300 px-4 py-2">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {posts.map((post, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {index + 1}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    <a href={post.link} className="underline ">
+                      link
+                    </a>
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {post.desc}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {formatDate(post.createdAt)}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    <DeletePost link={post.link} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="mt-5">
         <h2 className="text-xl font-bold mb-3">Anggota</h2>
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-300 px-4 py-2">ID</th>
-              <th className="border border-gray-300 px-4 py-2">User ID</th>
-              <th className="border border-gray-300 px-4 py-2">Ekstra ID</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ekstra.users.map((anggota, index) => (
-              <tr key={index}>
-                <td className="border border-gray-300 px-4 py-2">
-                  {index + 1}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {anggota.userId}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {anggota.ekstraId}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  <DeleteAnggota
-                    anggotaId={anggota.userId}
-                    ekstraId={parseInt(props.params.detail)}
-                  />
-                </td>
+        <div className="">
+          <table className=" border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 px-4 py-2">ID</th>
+                <th className="border border-gray-300 px-4 py-2">NIS</th>
+                <th className="border border-gray-300 px-4 py-2">Fullname</th>
+                <th className="border border-gray-300 px-4 py-2">Kelas</th>
+                <th className="border border-gray-300 px-4 py-2">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {ekstra.users.map((anggota, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {index + 1}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {anggota.nis}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {anggota.fullname}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {anggota.kelas}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    <DeleteAnggota
+                      anggotaId={anggota.userId}
+                      ekstraId={parseInt(props.params.detail)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -91,7 +91,7 @@ const Galeri = ({ posts }) => {
         <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center">
           <div className="absolute w-full h-full bg-black opacity-10"></div>
           <div className="absolute w-full h-full backdrop-filter backdrop-blur bg-opacity-50 flex justify-center items-center">
-            <div className="bg-[#FFFFFF] w-[640px] h-[680px] flex flex-col justify-between items-center p-[10px]">
+            <div className="bg-[#FFFFFF] w-[80%] h-[680px] flex flex-col justify-between  p-[10px]">
               <div className="flex justify-between px-[10px] w-full">
                 <p>
                   Diunggah oleh {""}
@@ -101,11 +101,21 @@ const Galeri = ({ posts }) => {
                 </p>
                 <p>{formatDate(selectedPost.createdAt)}</p>
               </div>
-              <img
-                src={selectedPost.link}
-                alt="Selected Image"
-                className="w-[620px] h-[620px] object-cover"
-              />
+              <div className="flex flex-row gap-[50px]">
+                <img
+                  src={selectedPost.link}
+                  alt="Selected Image"
+                  className="w-[620px] h-[620px] object-cover"
+                />
+                <div className="overflow-y-scroll w-full ">
+                  {" "}
+                  <p>
+                    {selectedPost.desc
+                      ? selectedPost.desc
+                      : "Tidak ada deskripsi"}
+                  </p>
+                </div>
+              </div>
             </div>
 
             <svg

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 const FormRegister = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [nis, setNis] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +13,7 @@ const FormRegister = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (password == confirmPassword) {
       const res = await fetch(`/api/auth/register`, {
         method: "POST",
@@ -29,8 +31,10 @@ const FormRegister = () => {
         router.push("/masuk");
       }
       setError(info);
+      setLoading(false);
     } else {
       setError({ message: "Konfirmasi password salah" });
+      setLoading(false);
     }
   };
 
@@ -92,6 +96,7 @@ const FormRegister = () => {
           <button
             type="submit"
             className="text-[#FFFFFF] font-bold text-[14px] bg-[#96BB7C] rounded-[5px] px-[100px] py-[20px] w-max"
+            disabled={loading}
           >
             Daftar Ulang
           </button>

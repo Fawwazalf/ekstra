@@ -7,6 +7,8 @@ import prisma from "../../lib/prisma";
 import Galeri from "../components/Galeri";
 
 const Detail = async (props) => {
+  const day = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+
   const session = await getServerSession(authOptions);
   let userId = 999999;
   if (session && session.id) {
@@ -33,16 +35,15 @@ const Detail = async (props) => {
     return res.nis;
   };
   const nis = await getUser(userId);
-
+  const ekstras = await prisma.ekstra.findMany({});
   return (
     <>
       <div className="flex flex-row items-center gap-[50px] mx-[120px]">
-        <Image
+        <img
           src={props.image}
-          width={696}
-          height={600}
           alt={props.name}
           priority
+          className="h-[600px] w-[696px] max-w-[696px] max-h-[600px] object-cover"
         />
         <div className="flex flex-col gap-[20px]">
           <p className="font-bold text-2xl ">{props.name}</p>
@@ -50,7 +51,7 @@ const Detail = async (props) => {
             <p>Pembimbing: {props.pembimbing}</p>
             <p>Anggota: {props.anggota} Siswa</p>
             <p>Tempat: {props.location}</p>
-            <p>Hari: Setiap hari</p>
+            <p>Hari: {day[props.day]}</p>
           </div>
           <div className="flex flex-row gap-[20px]">
             <button className="text-[#FFFFFF] font-bold text-[14px] bg-[#96BB7C] rounded-[5px] px-[40px] py-[15px] ">
@@ -61,7 +62,8 @@ const Detail = async (props) => {
               ekstraId={props.id}
               userId={userId}
               sudahMasuk={sudahMasuk}
-              nis={parseInt(nis)}
+              nis={nis}
+              ekstras={ekstras}
             />
           </div>
         </div>

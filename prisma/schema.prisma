@@ -13,6 +13,7 @@ datasource db {
 model Post {
   id        Int      @id @default(autoincrement())
   link      String
+  desc      String?
   createdAt DateTime @default(now())
   ekstra    Ekstra   @relation(fields: [ekstraId], references: [id])
   ekstraId  Int
@@ -28,27 +29,26 @@ model User {
   kelas    String
   jurusan  String
 
-  ekstras  Anggota[]
-  presensi Presensi[]
+  ekstras Anggota[]
 }
 
 model Category {
-  id   Int    @default(autoincrement())
-  name String @id
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
   ekstras Ekstra[]
 }
 
 model Ekstra {
-  id           Int      @id @default(autoincrement())
-  name         String
-  desc         String
-  categoryName String
-  category     Category @relation(fields: [categoryName], references: [name])
-  hari         Int
-  location     String   @default("Belum tahu")
-  pembimbing   String   @default("Belum tahu")
-  image        String
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  desc       String
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  hari       Int
+  location   String   @default("Belum tahu")
+  pembimbing String   @default("Belum tahu")
+  image      String
 
   users Anggota[]
   posts Post[]
@@ -61,23 +61,4 @@ model Anggota {
   ekstraId Int
 
   @@unique([userId, ekstraId])
-}
-
-model Event {
-  id   Int      @id @default(autoincrement())
-  name String
-  date DateTime
-
-  presensi Presensi[]
-}
-
-model Presensi {
-  id         Int      @id @unique @default(autoincrement())
-  userId     Int
-  eventId    Int
-  attendedAt DateTime
-  user       User     @relation(fields: [userId], references: [id])
-  event      Event    @relation(fields: [eventId], references: [id])
-
-  @@unique([userId, eventId])
 }
