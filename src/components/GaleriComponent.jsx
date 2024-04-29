@@ -25,7 +25,7 @@ const formatDate = (dateString) => {
   return `${day} ${months[monthIndex]} ${year}`;
 };
 
-const Galeri = ({ posts }) => {
+const GaleriComponent = ({ posts }) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -141,4 +141,4 @@ const Galeri = ({ posts }) => {
   );
 };
 
-export default Galeri;
+export default GaleriComponent;

@@ -4,7 +4,7 @@ import ButtonMasuk from "./ButtonMasuk";
 import { authOptions } from "../../lib/auth";
 import { getServerSession } from "next-auth";
 import prisma from "../../lib/prisma";
-import Galeri from "../components/Galeri";
+import GaleriComponent from "../components/GaleriComponent";
 
 const Detail = async (props) => {
   const day = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
@@ -71,7 +71,7 @@ const Detail = async (props) => {
       <div className="flex flex-col items-center my-[95px]">
         <p className="font-bold text-[22px] ">Galeri {props.name}</p>
         <div className="flex flex-row flex-wrap justify-center gap-[5px] mt-[60px]">
-          <Galeri posts={posts} />
+          <GaleriComponent posts={posts} />
         </div>
       </div>
     </>
