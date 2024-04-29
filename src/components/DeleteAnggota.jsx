@@ -1,7 +1,9 @@
 "use client";
 
 const DeleteAnggota = ({ anggotaId, ekstraId }) => {
+  const [loading, setLoading] = useState(false);
   const handleDelete = async () => {
+    setLoading(true);
     try {
       const response = await fetch("/api/anggota", {
         method: "DELETE",
@@ -14,7 +16,9 @@ const DeleteAnggota = ({ anggotaId, ekstraId }) => {
         }),
       });
       window.location.reload();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Terjadi kesalahan:", error);
     }
   };

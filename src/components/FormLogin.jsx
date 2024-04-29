@@ -30,7 +30,7 @@ const FormRegister = () => {
   };
 
   return (
-    <div className="flex flex-col w-[539px] h-[739px] bg-[#FFFFFF] bg-opacity-75 rounded-[40px] px-[44px] py-[77px] items-center gap-[58px] mr-[25px]">
+    <div className="flex flex-col w-full md:w-[539px] lg:h-[739px] bg-[#FFFFFF] bg-opacity-75 rounded-[40px] px-[44px] py-[77px] items-center gap-[58px] lg:mr-[25px]">
       <p className="text-[58px] font-bold w-min">Masuk</p>
 
       <form onSubmit={onSubmit} className="flex flex-col w-full gap-[20px]">

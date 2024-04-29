@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import prisma from "../../lib/prisma";
+
 import { useState } from "react";
 
 const ButtonMasuk = ({ ekstraId, userId, sudahMasuk, nis, ekstras }) => {

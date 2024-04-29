@@ -3,7 +3,7 @@ import Galeri from "../../components/Galeri";
 import prisma from "../../../lib/prisma";
 
 const GaleriPage = async () => {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({});
   return (
     <>
       <Navbar />

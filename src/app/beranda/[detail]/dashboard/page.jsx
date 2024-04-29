@@ -44,7 +44,11 @@ const page = async (props) => {
       id: parseInt(props.params.detail),
     },
     include: {
-      users: true,
+      users: {
+        include: {
+          user: true,
+        },
+      },
     },
   });
 
@@ -129,13 +133,13 @@ const page = async (props) => {
                     {index + 1}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
-                    {anggota.nis}
+                    {anggota.user.nis}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
-                    {anggota.fullname}
+                    {anggota.user.fullname}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
-                    {anggota.kelas}
+                    {anggota.user.kelas}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">
                     <DeleteAnggota

@@ -18,7 +18,7 @@ const Register = async () => {
         alt="Background"
         className="h-screen w-screen object-cover absolute -z-10"
       />
-      <div className="absolute right-0 flex items-center justify-center h-screen">
+      <div className="lg:absolute lg:right-0 flex items-center justify-center h-screen">
         <FormRegister />
       </div>
     </>

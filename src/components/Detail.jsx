@@ -38,12 +38,12 @@ const Detail = async (props) => {
   const ekstras = await prisma.ekstra.findMany({});
   return (
     <>
-      <div className="flex flex-row items-center gap-[50px] mx-[120px]">
+      <div className="flex flex-col lg:flex-row items-center gap-[50px] mx-[120px]">
         <img
           src={props.image}
           alt={props.name}
           priority
-          className="h-[600px] w-[696px] max-w-[696px] max-h-[600px] object-cover"
+          className="h-[240px] min-w-[300px] md:max-w-[500px] lg:max-w-[696px]  md:h-[400px] md:w-[500px] lg:h-[600px] lg:w-[696px]  object-cover"
         />
         <div className="flex flex-col gap-[20px]">
           <p className="font-bold text-2xl ">{props.name}</p>

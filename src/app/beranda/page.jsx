@@ -22,24 +22,28 @@ const Beranda = async () => {
   const session = await getServerSession(authOptions);
   const ekstras = await getEkstrasWithAnggotaCount();
   const day = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-  const userSession = await prisma.user.findUnique({
-    where: {
-      id: session.id,
-    },
-  });
+  const userSession = session
+    ? await prisma.user.findUnique({
+        where: {
+          id: session.id,
+        },
+      })
+    : null;
   return (
     <>
       <Navbar />
-      {userSession.nis === "admin" && (
-        <div className="flex justify-center gap-[80px] flex-wrap pt-[120px] ">
-          <Link
-            href="/dashboard"
-            className="font-bold text-[14px] rounded-[5px] px-[40px] py-[15px] text-[#FFFFFF] bg-[#96BB7C]"
-          >
-            DASHBOARD
-          </Link>
-        </div>
-      )}
+      {userSession == null
+        ? " "
+        : userSession.nis === "admin" && (
+            <div className="flex justify-center gap-[80px] flex-wrap pt-[120px] ">
+              <Link
+                href="/dashboard"
+                className="font-bold text-[14px] rounded-[5px] px-[40px] py-[15px] text-[#FFFFFF] bg-[#96BB7C]"
+              >
+                DASHBOARD
+              </Link>
+            </div>
+          )}
       <div className="flex justify-center gap-[80px] flex-wrap py-[120px]">
         {ekstras.map((ekstra) => (
           <EkskulCard

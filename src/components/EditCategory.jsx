@@ -32,9 +32,10 @@ const EditCategory = ({ category }) => {
         }),
       });
 
-      window.location.reload();
       setLoading(false);
+      window.location.reload();
     } catch (error) {
+      setLoading(false);
       console.error("Terjadi kesalahan:", error);
     }
   };

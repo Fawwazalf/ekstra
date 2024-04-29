@@ -21,7 +21,7 @@ const Profil = async () => {
       <div>
         <Navbar />
       </div>
-      <div className="flex flex-col py-[120px] h-screen items-center justify-center ">
+      <div className="flex flex-col py-[120px] h-screen justify-center items-center mx-[20px] ">
         <div className="flex flex-row text-sm justify-center gap-[50px] h-fit">
           <div className="flex flex-col gap-[10px] h-min">
             <p>Nama Lengkap</p>
